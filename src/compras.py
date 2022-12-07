@@ -70,3 +70,33 @@ def clientes_itinerantes(compras, n):
     
     return [(dni, sorted(conjunto_provincias)) for dni, conjunto_provincias in provincias_por_clientes.items() 
     if len(conjunto_provincias)>n]
+
+def dias_estrella_r(compras, super, provincia):
+    '''**dias_estrella**: recibe una lista de tuplas de tipo `Compra`, 
+    un supermercado y una provincia, 
+    y devuelve una lista ordenada cronológicamente con las 
+    "fechas estrella" de ese supermercado en esa provincia. 
+    Se consideran "fechas estrella" aquellos días en los que el supermercado 
+    factura más que el día anterior y más que el día siguiente. (2 puntos)'''
+    facturacion_dia = defaultdict(float)
+    for c in compras:
+        if c.supermercado == super and c.provincia == provincia:
+            facturacion_dia[c.fecha_salida.date()] += c.total_compra
+    lista_ordenada = sorted(facturacion_dia.items())
+    return [lista_ordenada[i][0] for i in range(1, len(lista_ordenada)-1)
+                if lista_ordenada[i-1][1]<lista_ordenada[i][1]>lista_ordenada[i+1][1]]
+
+def dias_estrella_b(compras, super, provincia):
+    '''**dias_estrella**: recibe una lista de tuplas de tipo `Compra`, 
+    un supermercado y una provincia, 
+    y devuelve una lista ordenada cronológicamente con las 
+    "fechas estrella" de ese supermercado en esa provincia. 
+    Se consideran "fechas estrella" aquellos días en los que el supermercado 
+    factura más que el día anterior y más que el día siguiente. (2 puntos)'''
+    facturacion_dia = defaultdict(float)
+    filtrado = [c for c in filtra_compras_provincia(compras, provincia) if c.supermercado == super]
+    for c in filtrado:
+        facturacion_dia[c.fecha_salida.date()] += c.total_compra
+    lista_ordenada = sorted(facturacion_dia.items())
+    auxiliar = list(zip(lista_ordenada, lista_ordenada[1:], lista_ordenada[2:]))
+    return [hoy[0] for ayer, hoy, manyana in auxiliar if ayer[1]<hoy[1]>manyana[1]] 

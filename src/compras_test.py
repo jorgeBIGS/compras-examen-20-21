@@ -1,4 +1,15 @@
 from compras import *
+from parsers import *
+
+
+def test_dias_estrellas(datos):
+    print('EJERCICIO 6')
+    print('Los días estrella del supermercado Aldi de la provincia de Huelva son: ', 
+    [fecha_to_string(fecha) for fecha in dias_estrella_b(datos, 'Aldi', 'Huelva')]
+    )
+    print('Los días estrella del supermercado Aldi de la provincia de Huelva son: ', 
+    [fecha_to_string(fecha) for fecha in dias_estrella_r(datos, 'Aldi', 'Huelva')]
+    )
 
 def test_supermercados_mas_facturacion(datos, n):
     print('Los 2 supermercados con más facturación son: ', supermercado_mas_facturacion(datos, n))
@@ -27,4 +38,5 @@ if __name__ == '__main__':
     test_hora_menos_afluencia(COMPRAS)
     print('EJERCICIO 4---------------------------------------------------------------------')
     test_supermercados_mas_facturacion(COMPRAS, 2)
+    test_dias_estrellas(COMPRAS)
 
